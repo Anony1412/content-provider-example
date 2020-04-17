@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <provider
-            android:authorities="com.example.contentprovider_example.data.provider.EmployeeProvider"
-            android:name=".data.provider.EmployeeProvider"/>
+            android:authorities="com.example.contentprovider_example.data.source.local.provider.EmployeeProvider"
+            android:name=".data.source.local.provider.EmployeeProvider"/>
     </application>
 
 </manifest>

@@ -1,22 +1,22 @@
-package com.example.contentprovider_example.data.provider
+package com.example.contentprovider_example.data.source.local.provider
 
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import com.example.contentprovider_example.data.database.DatabaseHelper
-import com.example.contentprovider_example.data.local.dao.DataDAO
+import android.util.Log
+import com.example.contentprovider_example.data.model.Employee
+import com.example.contentprovider_example.data.source.local.database.DatabaseHelper
+import com.example.contentprovider_example.data.source.local.database.dao.DataDAO
 
 class EmployeeProvider : ContentProvider(){
 
     private lateinit var databaseHelper: DatabaseHelper
     private lateinit var databaseDAO: DataDAO
 
-    private val providerPresenter = ProviderPresenter()
-
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("Not yet implemented")
+        return null
     }
 
     override fun query(
@@ -29,25 +29,31 @@ class EmployeeProvider : ContentProvider(){
         var cursor: Cursor? = null
         when (uriMatcher.match(uri)) {
             EMPLOYEE_TABLE_CODE -> {
-                cursor = handleQuery(projection, selection, selectionArgs, sortOrder)
+                cursor = databaseDAO.getDataProvider(projection, selection, selectionArgs, sortOrder)
             }
         }
         return cursor
     }
 
-    private fun handleQuery(projection: Array<out String>?, selection: String?,
-                            selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
-        return providerPresenter.getDataProvider(databaseDAO, projection, selection,
-            selectionArgs, sortOrder)
+    override fun onCreate(): Boolean {
+        /** create uri */
+        uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+        //content://com.example.contentprovider_example.data.source.local.provider.EmployeeProvider/EMPLOYEE
+        uriMatcher.addURI(AUTHORITY, DATA_TYPE, EMPLOYEE_TABLE_CODE)
+
+        /** init database */
+        initDatabase()
+        return false
     }
 
-    override fun onCreate(): Boolean {
-        uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+    private fun initDatabase() {
         databaseHelper = context?.let { DatabaseHelper(it) }!!
         databaseDAO = DataDAO(databaseHelper)
-        providerPresenter.handleCreate(uriMatcher)
-        providerPresenter.initDatabase(databaseHelper, databaseDAO)
-        return false
+        databaseDAO.openDatabase()
+        for (i in 0 until 10) {
+            val employee = Employee(i, "test $i")
+            databaseDAO.insert(employee)
+        }
     }
 
     override fun update(
@@ -69,7 +75,7 @@ class EmployeeProvider : ContentProvider(){
 
     companion object {
         lateinit var uriMatcher: UriMatcher
-        const val AUTHORITY = "com.example.contentprovider_example.data.provider.EmployeeProvider"
+        const val AUTHORITY = "com.example.contentprovider_example.data.source.local.provider.EmployeeProvider"
         const val DATA_TYPE = "EMPLOYEE"
         val URI = "content://$AUTHORITY/$DATA_TYPE"
         const val EMPLOYEE_TABLE_CODE = 1
