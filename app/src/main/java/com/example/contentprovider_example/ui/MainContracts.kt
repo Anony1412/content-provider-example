@@ -12,7 +12,7 @@ interface MainContracts {
     }
 
     interface Presenter {
-        fun handleInitializeData(contentResolver: ContentResolver, uri: Uri): Cursor
-        fun showData(cursor: Cursor, employeeList: ArrayList<Employee>, recyclerView: RecyclerView)
+        fun handleInitializeData(contentResolver: ContentResolver,
+                                 uri: Uri, employeeList: ArrayList<Employee>)
     }
 }
