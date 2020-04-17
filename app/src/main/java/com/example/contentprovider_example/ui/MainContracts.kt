@@ -8,11 +8,10 @@ import com.example.contentprovider_example.data.model.Employee
 
 interface MainContracts {
     interface View {
-        fun onDataInitializeSuccess(message: String)
+        fun onDataInitializeSuccess(employeeList: ArrayList<Employee>)
     }
 
     interface Presenter {
-        fun handleInitializeData(contentResolver: ContentResolver,
-                                 uri: Uri, employeeList: ArrayList<Employee>)
+        fun handleInitializeData(contentResolver: ContentResolver, uri: Uri)
     }
 }

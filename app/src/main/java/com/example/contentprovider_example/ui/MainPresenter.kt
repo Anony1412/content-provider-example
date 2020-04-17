@@ -10,16 +10,12 @@ import com.example.contentprovider_example.data.model.Employee
 import com.example.contentprovider_example.data.source.local.database.DatabaseHelper
 import com.example.contentprovider_example.ui.adapter.EmployeeAdapter
 
-class MainPresenter(private val mainView: MainContracts.View)
-    : MainContracts.Presenter {
+class MainPresenter(private val mainView: MainContracts.View) : MainContracts.Presenter {
 
-    override fun handleInitializeData (
-        contentResolver: ContentResolver,
-        uri: Uri,
-        employeeList: ArrayList<Employee>) {
+    override fun handleInitializeData (contentResolver: ContentResolver, uri: Uri) {
+        val employeeList: ArrayList<Employee> = ArrayList()
         val cursor = contentResolver.query(uri,
             null, null, null, null) as Cursor
-        mainView.onDataInitializeSuccess("Get Data Success!")
         cursor.moveToFirst()
         while (!cursor.isAfterLast) {
             val employee =
@@ -28,5 +24,6 @@ class MainPresenter(private val mainView: MainContracts.View)
             employeeList.add(employee)
             cursor.moveToNext()
         }
+        mainView.onDataInitializeSuccess(employeeList)
     }
 }
