@@ -8,7 +8,7 @@ import com.example.contentprovider_example.data.source.local.database.DatabaseHe
 import com.example.contentprovider_example.data.model.Employee
 
 class DataDAO(private val databaseHelper: DatabaseHelper) {
-    private lateinit var database: SQLiteDatabase
+    private var database: SQLiteDatabase? = null
 
     fun openDatabase() {
         database = databaseHelper.writableDatabase
@@ -25,7 +25,7 @@ class DataDAO(private val databaseHelper: DatabaseHelper) {
         selectionArgs: Array<out String>?,
         sortOrder: String?
     ): Cursor {
-        return database.query(
+        return database!!.query(
             DatabaseHelper.TABLE_NAME, projection,
             selection, selectionArgs, null, null, sortOrder)
     }
@@ -34,6 +34,6 @@ class DataDAO(private val databaseHelper: DatabaseHelper) {
         val contentValues = ContentValues().apply {
             put(DatabaseHelper.EMPLOYEE_NAME, employee.name)
         }
-        database.insert(DatabaseHelper.TABLE_NAME, null, contentValues)
+        database!!.insert(DatabaseHelper.TABLE_NAME, null, contentValues)
     }
 }

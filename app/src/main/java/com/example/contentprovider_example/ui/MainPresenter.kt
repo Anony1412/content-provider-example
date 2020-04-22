@@ -1,14 +1,10 @@
 package com.example.contentprovider_example.ui
 
 import android.content.ContentResolver
-import android.content.Context
 import android.database.Cursor
 import android.net.Uri
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.contentprovider_example.data.model.Employee
 import com.example.contentprovider_example.data.source.local.database.DatabaseHelper
-import com.example.contentprovider_example.ui.adapter.EmployeeAdapter
 
 class MainPresenter(private val mainView: MainContracts.View) : MainContracts.Presenter {
 
@@ -24,6 +20,6 @@ class MainPresenter(private val mainView: MainContracts.View) : MainContracts.Pr
             employeeList.add(employee)
             cursor.moveToNext()
         }
-        mainView.onDataInitializeSuccess(employeeList)
+        mainView.showEmployees(employeeList)
     }
 }

@@ -8,10 +8,11 @@ import com.example.contentprovider_example.R
 import com.example.contentprovider_example.data.model.Employee
 import kotlinx.android.synthetic.main.employee_item.view.*
 
-class EmployeeAdapter(private val employeeList: ArrayList<Employee>)
-    : RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>() {
+class EmployeeAdapter(
+    private val employeeList: List<Employee>
+) : RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>() {
 
-    inner class EmployeeViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    class EmployeeViewHolder(view: View): RecyclerView.ViewHolder(view) {
         fun bind(employee: Employee) {
             itemView.textViewItemName.text = employee.name
         }

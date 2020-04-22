@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
-import android.util.Log
 import com.example.contentprovider_example.data.model.Employee
 import com.example.contentprovider_example.data.source.local.database.DatabaseHelper
 import com.example.contentprovider_example.data.source.local.database.dao.DataDAO

@@ -3,7 +3,6 @@ package com.example.contentprovider_example.ui
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.contentprovider_example.R
 import com.example.contentprovider_example.data.model.Employee
 import com.example.contentprovider_example.data.source.local.provider.EmployeeProvider
@@ -28,10 +27,8 @@ class MainActivity : AppCompatActivity(), MainContracts.View {
         mainPresenter.handleInitializeData(contentResolver, uri)
     }
 
-    override fun onDataInitializeSuccess(employeeList: ArrayList<Employee>) {
+    override fun showEmployees(employeeList: List<Employee>) {
         recyclerViewEmployee.adapter = EmployeeAdapter(employeeList)
-        recyclerViewEmployee.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerViewEmployee.setHasFixedSize(false)
     }
 }
